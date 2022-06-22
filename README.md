@@ -33,8 +33,8 @@ This repo created for colleting and documenting the Recruitment Questions from d
       <th scope="row">3</th>
       <td>Adcropper</td>
       <td>22.06.2022</td>
-       <td>?</td>
-       <td>?</td>
+       <td>2 days</td>
+       <td>2</td>
     </tr>
   </tbody>
 </table>

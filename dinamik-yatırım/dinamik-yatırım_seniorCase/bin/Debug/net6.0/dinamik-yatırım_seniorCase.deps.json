@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "dinamik-yatırım_seniorCase/1.0.0": {
+        "runtime": {
+          "dinamik-yatırım_seniorCase.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "dinamik-yatırım_seniorCase/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

@@ -36,5 +36,12 @@ This repo created for colleting and documenting the Recruitment Questions from d
        <td>2 days</td>
        <td>2</td>
     </tr>
+     <tr>
+      <th scope="row">3</th>
+      <td>Dinamik Yatırım</td>
+      <td>28.06.2022</td>
+       <td>6 days</td>
+       <td>2</td>
+    </tr>
   </tbody>
 </table>

@@ -2,17 +2,19 @@ function getUserInput() {
   const errorMessage = document.getElementById("error-message");
   errorMessage.innerHTML = "";
   let userNumber = document.getElementById("user-number").value;
- console.log(textGenerator(formValidation(userNumber, errorMessage)))
+  console.log(textGenerator(formValidation(userNumber, errorMessage)))
   document.getElementById("user-number").value = "";
 }
 
 formValidation = (userInput, messageEl) => {
+ const max = 50;
+ const  min = 0;
   try {
     if (userInput == "") throw "empty";
     if (isNaN(userInput)) throw "not a number";
     userInput = Number(userInput);
-    if (userInput < 0) throw "too low";
-    if (userInput > 51) throw "too high";
+    if (userInput < min) throw "too low";
+    if (userInput > max) throw "too high";
     else return userInput;
   } catch (err) {
     messageEl.innerHTML = "Input is " + err;

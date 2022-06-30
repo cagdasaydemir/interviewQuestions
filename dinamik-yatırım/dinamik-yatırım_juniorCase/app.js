@@ -1,6 +1,6 @@
 let words = [];
 const wordItemsLS = localStorage.getItem("wordItemsLS");
-if(wordItemsLS){
+if (wordItemsLS) {
   words = JSON.parse(wordItemsLS);
 }
 
@@ -10,10 +10,6 @@ let Word = {
   length: 0,
 };
 
-
-
-
-
 const tBodyEl = document.getElementsByTagName("tbody")[0];
 
 function getUserInput() {
@@ -21,7 +17,6 @@ function getUserInput() {
   errorMessage.innerHTML = "";
   let userNumber = document.getElementById("user-number").value;
   formValidation(userNumber, errorMessage);
-  console.log(words)
 }
 
 const idGenerator = () => {
@@ -43,7 +38,7 @@ formValidation = (userInput, messageEl) => {
       userInput = Number(userInput);
       throw "too high";
     } else {
-      words = textGenerator(userInput,5);
+      words = textGenerator(userInput, 100);
       document.getElementById("user-number").value = "";
       return words;
     }
@@ -52,11 +47,10 @@ formValidation = (userInput, messageEl) => {
   }
 };
 
-textGenerator = (textLength,quantity) => {
+textGenerator = (textLength, quantity) => {
   var characters = "abcçdefgğhıijklmnoöprsştuüvyz";
   var charactersLength = characters.length;
   var result = "";
-
   for (let j = 0; j < quantity; j++) {
     var result = "";
     for (var i = 0; i < textLength; i++) {
@@ -78,22 +72,18 @@ const saveWordsToLS = () => {
   localStorage.setItem("wordItemsLS", JSON.stringify(words));
 };
 
-// addItemToHTML = (words) => {
-//   console.log(words)
-//   for (let i = 0; i < words.length; i++) {
-//     let addedItem = ` <tr>
-//     <th scope="row">1</th>
-//     <td>Mark</td>
-//     <td>Otto</td>
-//   </tr>`;
-//   tBodyEl.insertAdjacentHTML("beforeend", addedItem);
-//   };
+const insertWordItemsToList = (wordList) => {
+  for (let i = 0; i < wordList.length; i++) {
+    let addedItem = ` <tr>
+    <th scope="row">${wordList[i].id}</th>
+    <td>${wordList[i].text}</td>
+    <td>${wordList[i].length}</td>
+  </tr>`;
 
-// };
+    tBodyEl.insertAdjacentHTML("afterbegin", addedItem);
+  }
+};
 
-// addItemToHTML(words);
-
-
-
-
-
+document.getElementById("getir-btn").addEventListener("click", function () {
+  insertWordItemsToList(words);
+});

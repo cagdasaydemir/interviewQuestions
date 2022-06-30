@@ -32,11 +32,10 @@ tabloda sıralama özelliği de bulunacak.
     
 
 - dataTable 
-    - getir button
+    <!-- - getir button -->
     <!-- - add items to list -->
-    - add items to html
-    - database ? cache ? localstorage ? 
-    - use localStorage
+    <!-- - add items to html -->
+    <!-- - use localStorage -->
     - sort 
     
 

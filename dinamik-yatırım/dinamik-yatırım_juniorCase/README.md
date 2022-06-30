@@ -16,7 +16,7 @@ Rastgele yaratılacak metinler sadece Türkçe'deki küçük harflerden oluşabi
 <!-- 2. Adım: Oluşturulan web sayfasının alt tarafına bir tablo yapılacak. Tablonun üstünde bulunan 'Getir' -->
 butonuna tıklandığında daha önce veritabanına kaydedilen metinler bu tabloda listelenecek. Ayrıca
 tabloda sıralama özelliği de bulunacak.
-Not: Error Handling önemlidir
+<!-- Not: Error Handling önemlidir -->
 
 
 ## Solution - Algorithm

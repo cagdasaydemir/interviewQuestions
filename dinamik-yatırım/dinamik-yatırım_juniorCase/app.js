@@ -1,9 +1,18 @@
 let words = [];
+const wordItemsLS = localStorage.getItem("wordItemsLS");
+if(wordItemsLS){
+  words = JSON.parse(wordItemsLS);
+}
+
 let Word = {
   id: 0,
   text: "",
   length: 0,
 };
+
+
+
+
 
 const tBodyEl = document.getElementsByTagName("tbody")[0];
 
@@ -34,7 +43,7 @@ formValidation = (userInput, messageEl) => {
       userInput = Number(userInput);
       throw "too high";
     } else {
-      words = textGenerator(userInput,100);
+      words = textGenerator(userInput,5);
       document.getElementById("user-number").value = "";
       return words;
     }
@@ -61,8 +70,12 @@ textGenerator = (textLength,quantity) => {
     };
     words = [...words, wordItem];
   }
-  
+  saveWordsToLS();
   return words;
+};
+
+const saveWordsToLS = () => {
+  localStorage.setItem("wordItemsLS", JSON.stringify(words));
 };
 
 // addItemToHTML = (words) => {
@@ -79,4 +92,8 @@ textGenerator = (textLength,quantity) => {
 // };
 
 // addItemToHTML(words);
+
+
+
+
 

@@ -26,13 +26,17 @@ Not: Error Handling önemlidir
     - formValidation and errorMessage
     - get userInput -->
 
-- generator
-    <!-- - length.userInput x 100 times
+<!-- - generator
+    - length.userInput x 100 times
     - türkçe karakterler lowerCase -->
-    - database ? cache ? localstorage ? 
+    
 
 - dataTable 
     - getir button
+    <!-- - add items to list -->
+    - add items to html
+    - database ? cache ? localstorage ? 
     - use localStorage
     - sort 
+    
 

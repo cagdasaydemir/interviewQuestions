@@ -38,9 +38,8 @@ formValidation = (userInput, messageEl) => {
       userInput = Number(userInput);
       throw "too high";
     } else {
-      words = textGenerator(userInput, 100);
+      textGenerator(userInput, 100);
       document.getElementById("user-number").value = "";
-      return words;
     }
   } catch (err) {
     messageEl.innerHTML = "Input is " + err;
@@ -65,7 +64,6 @@ textGenerator = (textLength, quantity) => {
     words = [...words, wordItem];
   }
   saveWordsToLS();
-  return words;
 };
 
 const saveWordsToLS = () => {

@@ -11,7 +11,7 @@ build_property.RootNamespace = dinamik_yatirim_seniorCase
 build_property.ProjectDir = C:\Users\Cagdas Aydemir\Documents\GitHub\interviewQuestions\dinamik-yatirim\dinamik-yatirim_seniorCase\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
-build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = true
 build_property.MSBuildProjectDirectory = C:\Users\Cagdas Aydemir\Documents\GitHub\interviewQuestions\dinamik-yatirim\dinamik-yatirim_seniorCase
 build_property._RazorSourceGeneratorDebug = 
 

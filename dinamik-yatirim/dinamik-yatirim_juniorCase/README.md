@@ -20,22 +20,3 @@ Not: Error Handling önemlidir
 
 
 ## Solution - Algorithm
-
-- form 
-    - form reset onClick
-    - formValidation and errorMessage
-    - get userInput
-
-- generator
-    - length.userInput x 100 times
-    - türkçe karakterler lowerCase
-    
-
-- dataTable 
-    - getir button
-    - add items to list
-    - add items to html
-    - use localStorage
-    - sort 
-  
-

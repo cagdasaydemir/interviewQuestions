@@ -1,4 +1,4 @@
-# dinamik-yatırım_juniorCase
+# dinamik-yatirim_seniorCase
 
 Dinamik Yatırım Recruitment Case - SENIOR
 

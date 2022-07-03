@@ -1,0 +1,11 @@
+C:\Users\Cagdas Aydemir\Documents\GitHub\interviewQuestions\dinamik-yatirim\dinamik-yatirim_seniorCase-WinFormApp\bin\Debug\dinamik-yatirim_seniorCase-WinFormApp.exe.config
+C:\Users\Cagdas Aydemir\Documents\GitHub\interviewQuestions\dinamik-yatirim\dinamik-yatirim_seniorCase-WinFormApp\bin\Debug\dinamik-yatirim_seniorCase-WinFormApp.exe
+C:\Users\Cagdas Aydemir\Documents\GitHub\interviewQuestions\dinamik-yatirim\dinamik-yatirim_seniorCase-WinFormApp\bin\Debug\dinamik-yatirim_seniorCase-WinFormApp.pdb
+C:\Users\Cagdas Aydemir\Documents\GitHub\interviewQuestions\dinamik-yatirim\dinamik-yatirim_seniorCase-WinFormApp\obj\Debug\dinamik-yatirim_seniorCase-WinFormApp.csproj.AssemblyReference.cache
+C:\Users\Cagdas Aydemir\Documents\GitHub\interviewQuestions\dinamik-yatirim\dinamik-yatirim_seniorCase-WinFormApp\obj\Debug\dinamik-yatirim_seniorCase-WinFormApp.csproj.SuggestedBindingRedirects.cache
+C:\Users\Cagdas Aydemir\Documents\GitHub\interviewQuestions\dinamik-yatirim\dinamik-yatirim_seniorCase-WinFormApp\obj\Debug\dinamik_yatirim_seniorCase_WinFormApp.Form1.resources
+C:\Users\Cagdas Aydemir\Documents\GitHub\interviewQuestions\dinamik-yatirim\dinamik-yatirim_seniorCase-WinFormApp\obj\Debug\dinamik_yatirim_seniorCase_WinFormApp.Properties.Resources.resources
+C:\Users\Cagdas Aydemir\Documents\GitHub\interviewQuestions\dinamik-yatirim\dinamik-yatirim_seniorCase-WinFormApp\obj\Debug\dinamik-yatirim_seniorCase-WinFormApp.csproj.GenerateResource.cache
+C:\Users\Cagdas Aydemir\Documents\GitHub\interviewQuestions\dinamik-yatirim\dinamik-yatirim_seniorCase-WinFormApp\obj\Debug\dinamik-yatirim_seniorCase-WinFormApp.csproj.CoreCompileInputs.cache
+C:\Users\Cagdas Aydemir\Documents\GitHub\interviewQuestions\dinamik-yatirim\dinamik-yatirim_seniorCase-WinFormApp\obj\Debug\dinamik-yatirim_seniorCase-WinFormApp.exe
+C:\Users\Cagdas Aydemir\Documents\GitHub\interviewQuestions\dinamik-yatirim\dinamik-yatirim_seniorCase-WinFormApp\obj\Debug\dinamik-yatirim_seniorCase-WinFormApp.pdb

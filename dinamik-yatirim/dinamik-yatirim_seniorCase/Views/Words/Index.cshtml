@@ -1,0 +1,144 @@
+﻿@model IEnumerable<dinamik_yatirim_seniorCase.Models.Word>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Words Table</h1>
+
+
+<table id="text-table" class="display" style="width:100%">
+    <thead>
+    </thead>
+
+    <tbody>
+    </tbody>
+
+
+</table>
+
+
+
+
+<table class="table">
+    <thead>
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Length)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Text)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Length)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+
+        </tr>
+}
+    </tbody>
+</table>
+
+
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#text-table thead tr')
+                .clone(true)
+                .addClass('filters')
+                .appendTo('#text-table thead');
+
+            var table = $('#text-table').DataTable({
+                ajax: {
+                    url: "http://localhost:44329/Words/Index",
+                    type: "GET",
+                    
+                },
+              
+                columns: [
+                    {
+                        data: "id",
+                        title: "#ID",
+                    },
+                    {
+                        data: "text",
+                        title: "Metin",
+                    },
+                    {
+                        data: "length",
+                        title: "Uzunluk",
+                    },
+                ],
+                order: [[0, 'desc']],
+                orderCellsTop: true,
+                fixedHeader: true,
+                initComplete: function() {
+                    var api = this.api();
+
+                    // For each column
+                    api
+                        .columns()
+                        .eq(0)
+                        .each(function(colIdx) {
+                            // Set the header cell to contain the input element
+                            var cell = $('.filters th').eq(
+                                $(api.column(colIdx).header()).index()
+                            );
+                            var title = $(cell).text();
+                            $(cell).html('<input type="text" placeholder="' + title + '" />');
+
+                            // On every keypress in this input
+                            $(
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                            )
+                                .off('keyup change')
+                                .on('change', function(e) {
+                                    // Get the search value
+                                    $(this).attr('title', $(this).val());
+                                    var regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                                    var cursorPosition = this.selectionStart;
+                                    // Search the column for that value
+                                    api
+                                        .column(colIdx)
+                                        .search(
+                                            this.value != ''
+                                                ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                                : '',
+                                            this.value != '',
+                                            this.value == ''
+                                        )
+                                        .draw();
+                                })
+                                .on('keyup', function(e) {
+                                    e.stopPropagation();
+
+                                    $(this).trigger('change');
+                                    $(this)
+                                        .focus()[0]
+                                        .setSelectionRange(cursorPosition, cursorPosition);
+                                });
+                        });
+                },
+            });
+        });
+    </script>
+  }

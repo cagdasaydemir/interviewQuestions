@@ -1,6 +1,7 @@
 # Interview Questions
 
 This repo created for colleting and documenting the Recruitment Questions from diffrenet companies.
+Also, Im trying to improve my git skills, so there will be lost of git mess.
 
 ## Interviews
 

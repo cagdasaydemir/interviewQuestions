@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using dinamik_yatirim_seniorCase.Data;
 using dinamik_yatirim_seniorCase.Models;
+using Newtonsoft.Json;
 
 namespace dinamik_yatirim_seniorCase.Controllers
 {
@@ -18,16 +19,20 @@ namespace dinamik_yatirim_seniorCase.Controllers
         {
             _context = context;
         }
-
-      
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-              return _context.Words != null ? 
-                          View(await _context.Words.ToListAsync()) :
-                          Problem("Entity set 'AppDbContext.Words'  is null.");
-           
+            return View();
+
+
         }
-       
+        [HttpPost]
+        public string AjaxMethod()
+        {
+            IEnumerable<Word> words = (from word in _context.Words
+                                        select word).ToList();
+            var result = JsonConvert.SerializeObject(new {data= words});
+            return result;
+        }
 
     }
 }

@@ -1,5 +1,7 @@
 ﻿using learningPortal.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Diagnostics;
 
 namespace learningPortal.Controllers
@@ -18,6 +20,7 @@ namespace learningPortal.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Lecturer")]
         public IActionResult Privacy()
         {
             return View();

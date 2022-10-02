@@ -11,11 +11,14 @@ namespace learningPortal.Data
             : base(options)
         {
         }
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-            builder.Entity<IdentityRole>().HasData(new IdentityRole { Id = "1", Name = "Student", NormalizedName = "STUDENT".ToUpper() });
-            builder.Entity<IdentityRole>().HasData(new IdentityRole { Id = "2", Name = "Lecturer", NormalizedName = "LECTURER".ToUpper() });
-        }
+
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    base.OnModelCreating(builder);
+        //    builder.Entity<IdentityRole>().HasData(new IdentityRole { Id = "1", Name = "Student", NormalizedName = "STUDENT".ToUpper() });
+        //    builder.Entity<IdentityRole>().HasData(new IdentityRole { Id = "2", Name = "Lecturer", NormalizedName = "LECTURER".ToUpper() });
+        //}
     }
 }

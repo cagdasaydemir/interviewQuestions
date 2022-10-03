@@ -1,0 +1,36 @@
+﻿@model learningPortal.Models.ViewModels.CourseDetailVM
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Course</h4>
+    <hr />
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card text-center">
+              @*  <img src="~/images/@Model.Course.ImgUrl" class="card-img-top"
+                     alt="@Model.Course.Name" width="350" height="450">*@
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Course.Name</h5>
+                    <div>
+                        @foreach (var category in @Model.Categories)
+                        {
+                            <span class="badge bg-secondary">@category.Name</span>
+                        }
+                    </div>
+                    <p class="card-text">@Model.Course.Description</p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Course.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

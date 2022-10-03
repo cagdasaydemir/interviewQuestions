@@ -8,8 +8,11 @@ namespace learningPortal.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
+        public string Description { get; set; }
+        public int Quota { get; set; }
+        public double Price { get; set; }
 
         //Relationships
-        public ICollection<CourseCategory> Categories { get; set; }
+        public ICollection<CourseCategory>? Categories { get; set; }
     }
 }

@@ -17,13 +17,20 @@ namespace learningPortal.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+           
+            builder.Entity<IdentityRole>().HasData(new IdentityRole { Id = "1", Name = "Student", NormalizedName = "STUDENT".ToUpper() },
+                new IdentityRole { Id = "2", Name = "Lecturer", NormalizedName = "LECTURER".ToUpper() });
+
+            builder.Entity<CourseCategory>().HasKey(key => new {key.CourseId, key.CategoryId});
+
             builder.Entity<Category>().HasData(
-                new Category { Id = 1, Name = "Online" },
-                new Category { Id = 2, Name = "Kitap" },
-                new Category { Id = 3, Name = "Sunum" },
-                new Category { Id = 4, Name = "Makale" },
-                new Category { Id = 5, Name = "Mini Proje" }
-            );
+               new Category { Id = 1, Name = "Online" },
+               new Category { Id = 2, Name = "Kitap" },
+               new Category { Id = 3, Name = "Sunum" },
+               new Category { Id = 4, Name = "Makale" },
+               new Category { Id = 5, Name = "Mini Proje" }
+           );
         }
     }
 }

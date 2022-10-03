@@ -12,8 +12,8 @@ using learningPortal.Data;
 namespace learningPortal.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221003112932_seedCategories")]
-    partial class seedCategories
+    [Migration("20221003121724_courseCategory")]
+    partial class courseCategory
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -150,6 +150,21 @@ namespace learningPortal.Data.Migrations
                     b.ToTable("Courses");
                 });
 
+            modelBuilder.Entity("learningPortal.Models.CourseCategory", b =>
+                {
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CourseId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("CourseCategory");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -175,6 +190,22 @@ namespace learningPortal.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            ConcurrencyStamp = "c890867e-9702-48a0-88b4-1689c403c115",
+                            Name = "Student",
+                            NormalizedName = "STUDENT"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            ConcurrencyStamp = "99970f0c-fe9e-4eb9-ac9c-93b662ae68f6",
+                            Name = "Lecturer",
+                            NormalizedName = "LECTURER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -287,6 +318,25 @@ namespace learningPortal.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("learningPortal.Models.CourseCategory", b =>
+                {
+                    b.HasOne("learningPortal.Models.Category", "Category")
+                        .WithMany("Courses")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("learningPortal.Models.Course", "Course")
+                        .WithMany("Categories")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Course");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -336,6 +386,16 @@ namespace learningPortal.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("learningPortal.Models.Category", b =>
+                {
+                    b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("learningPortal.Models.Course", b =>
+                {
+                    b.Navigation("Categories");
                 });
 #pragma warning restore 612, 618
         }

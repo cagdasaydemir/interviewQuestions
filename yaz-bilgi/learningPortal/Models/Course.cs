@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using learningPortal.Models.Enums;
 
 namespace learningPortal.Models
 {
@@ -13,6 +14,9 @@ namespace learningPortal.Models
         
         public int Quota { get; set; }
         public double Price { get; set; }
+        //public string Lecturer { get; set; }
+  
+        public LecturerEnum LecturerEnum { get; set; }
 
     }
 }

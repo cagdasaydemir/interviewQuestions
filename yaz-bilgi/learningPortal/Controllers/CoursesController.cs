@@ -68,6 +68,7 @@ namespace learningPortal.Controllers
                 course.Description = vm.Description;
                 course.Quota = vm.Quota;
                 course.Price = vm.Price;
+                course.LecturerEnum = vm.LecturerEnum;
 
                 _context.Courses.Add(course);
                 await _context.SaveChangesAsync();
@@ -85,6 +86,7 @@ namespace learningPortal.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+           
             return View("Create");
         }
 

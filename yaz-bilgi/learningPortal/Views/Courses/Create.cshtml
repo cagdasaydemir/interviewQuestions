@@ -32,15 +32,21 @@
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-        <label class="form-label">Course Categories</label>
-        <select class="form-control js-example-basic-multiple" asp-for="CategoryIds" multiple="multiple">
-            @foreach (var cat in ViewBag.Categories)
-            {
-                <option value="@cat.Id">@cat.Name</option>
-            }
-        </select>
-    </div>
+            <div class="form-group">
+                <label asp-for="LecturerEnum" class="control-label"></label>
+                <select asp-for="LecturerEnum" class="form-control" asp-items="Html.GetEnumSelectList<LecturerEnum>()">
+                    <option selected="selected" value="">Please select</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Course Categories</label>
+                <select class="form-control js-example-basic-multiple" asp-for="CategoryIds" multiple="multiple">
+                    @foreach (var cat in ViewBag.Categories)
+                    {
+                        <option value="@cat.Id">@cat.Name</option>
+                    }
+                </select>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -53,7 +59,9 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function () {

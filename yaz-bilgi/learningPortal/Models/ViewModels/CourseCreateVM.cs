@@ -16,7 +16,6 @@ namespace learningPortal.Models.ViewModels
         [Range(1, 50, ErrorMessage = "Quota must be between 1 and 50 only !")]
         public int Quota { get; set; }
         public double Price { get; set; }
-
         public List<int> CategoryIds { get; set; } = new List<int>();
     }
 }

@@ -48,6 +48,9 @@ namespace learningPortal.Controllers
         public IActionResult Create()
         {
             CourseCreateVM vm = new CourseCreateVM();
+            var categories = _context.Categories.ToList();
+            ViewBag.Categories = categories;
+
             return View(vm);
         }
 
@@ -66,7 +69,19 @@ namespace learningPortal.Controllers
                 course.Quota = vm.Quota;
                 course.Price = vm.Price;
 
-                _context.Add(course);
+                _context.Courses.Add(course);
+                await _context.SaveChangesAsync();
+                
+                vm.CategoryIds.ForEach(category =>
+                {
+                    CourseCategory courseCategory = new CourseCategory();
+                    courseCategory.Course = course;
+                    courseCategory.Category = _context.Categories.FirstOrDefault(c => c.Id == category);
+
+                    _context.CourseCategory.Add(courseCategory);
+
+                });
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

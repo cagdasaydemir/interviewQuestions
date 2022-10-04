@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using learningPortal.Data;
 using learningPortal.Models;
-using learningPortal.Models.ViewModels;
 
 namespace learningPortal.Controllers
 {
@@ -33,37 +32,21 @@ namespace learningPortal.Controllers
             {
                 return NotFound();
             }
-           
 
-            var course = _context.Courses
-                                    .Where(m => m.Id == id)
-                                    .FirstOrDefault();
-
-            var categories = _context.CourseCategory
-                                .Where(cm => cm.Course.Id == id)
-                                .Include(cm => cm.Category)
-                                .Select(cm => cm.Category).ToList();
-
-            CourseDetailVM courseDetailVM = new CourseDetailVM();
-
-            courseDetailVM.Course = course;
-            courseDetailVM.Categories = categories;
+            var course = await _context.Courses
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (course == null)
             {
                 return NotFound();
             }
 
-            return View(courseDetailVM);
+            return View(course);
         }
 
         // GET: Courses/Create
         public IActionResult Create()
         {
-            CourseCreateVM createCourse = new CourseCreateVM();
-            var categories = _context.Categories.ToList();
-            ViewBag.Categories = categories;
-            return View(createCourse);
-            
+            return View();
         }
 
         // POST: Courses/Create
@@ -71,42 +54,15 @@ namespace learningPortal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateCourse( CourseCreateVM createCourse)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Quota,Price")] Course course)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View("Create");
+                _context.Add(course);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            else
-            {
-                Course course = new Course();
-                course.Name = createCourse.Name;
-                course.Description = createCourse.Description;
-                course.Quota = createCourse.Quota;
-                course.Price = createCourse.Price;
-
-                //if (createCourse.ImgFile != null)
-                //{
-                //    var uniqueFileName = GetUniqueFileName(createCourse.ImgFile.FileName);
-                //    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", uniqueFileName);
-                //    createCourse.ImgFile.CopyTo(new FileStream(filePath, FileMode.Create));
-
-                //    course.ImgUrl = uniqueFileName;
-                //}
-
-                _context.Courses.Add(course);
-
-                createCourse.CategoryIds.ForEach(category =>
-                {
-                    CourseCategory courseCategory = new CourseCategory();
-                    courseCategory.Course = course;
-                    courseCategory.Category = _context.Categories.FirstOrDefault(c => c.Id == category);
-
-                    _context.CourseCategory.Add(courseCategory);
-                });
-            }
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+            return View(course);
         }
 
         // GET: Courses/Edit/5
@@ -117,23 +73,12 @@ namespace learningPortal.Controllers
                 return NotFound();
             }
 
-            
-            var categories = _context.Categories.ToList();
-            ViewBag.Categories = categories;
-
             var course = await _context.Courses.FindAsync(id);
             if (course == null)
             {
                 return NotFound();
             }
-            CourseCreateVM createCourse = new CourseCreateVM();
-
-            createCourse.Name = course.Name;
-            createCourse.Description = course.Description;
-            createCourse.Quota = course.Quota;
-            createCourse.Price = course.Price;
-            
-            return View(createCourse);
+            return View(course);
         }
 
         // POST: Courses/Edit/5
@@ -141,9 +86,9 @@ namespace learningPortal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, CourseCreateVM createCourse)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Quota,Price")] Course course)
         {
-            if (id != createCourse.Id)
+            if (id != course.Id)
             {
                 return NotFound();
             }
@@ -152,48 +97,12 @@ namespace learningPortal.Controllers
             {
                 try
                 {
-
-                    if (createCourse.Id != 0)
-                    {
-                        var updatedCourse = _context.Courses
-                                            .SingleOrDefault(m => m.Id == createCourse.Id);
-                        updatedCourse.Name = createCourse.Name;
-                        updatedCourse.Description = createCourse.Description;
-                        updatedCourse.Quota = createCourse.Quota;
-                        updatedCourse.Price = createCourse.Price;
-
-                        var categoryLists = _context.CourseCategory
-                            .Where(cm => cm.Course.Id == createCourse.Id)
-                            .Select(cm => cm.Category.Id).ToList();
-
-                        var deletedCategory = categoryLists.Except(createCourse.CategoryIds).ToList();
-
-                        deletedCategory.ForEach(item =>
-                        {
-                            var deletedCourseCategory = _context.CourseCategory
-                            .FirstOrDefault(c => c.Category.Id == item);
-                            var delete = _context.CourseCategory.Remove(deletedCourseCategory);
-                        });
-
-                        _context.SaveChanges();
-                        var addedCategory = createCourse.CategoryIds.Except(categoryLists).ToList();
-                        addedCategory.ForEach(category =>
-                        {
-                            CourseCategory courseCategory = new CourseCategory();
-                            courseCategory.Course = updatedCourse;
-                            courseCategory.Category = _context.Categories
-                            .FirstOrDefault(c => c.Id == category);
-
-                            _context.CourseCategory.Add(courseCategory);
-                        });
-
-                        _context.Courses.Update(updatedCourse);
-                        await _context.SaveChangesAsync();
-                    }
+                    _context.Update(course);
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CourseExists(createCourse.Id))
+                    if (!CourseExists(course.Id))
                     {
                         return NotFound();
                     }
@@ -204,7 +113,7 @@ namespace learningPortal.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(createCourse);
+            return View(course);
         }
 
         // GET: Courses/Delete/5

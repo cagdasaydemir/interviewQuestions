@@ -1,4 +1,4 @@
-﻿@model learningPortal.Models.ViewModels.CourseCreateVM
+﻿@model learningPortal.Models.Course
 
 @{
     ViewData["Title"] = "Create";
@@ -10,8 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateCourse">
-            
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -34,15 +33,6 @@
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="form-label">Course Category</label>
-                <select class="form-control js-example-basic-multiple" asp-for="CategoryIds" multiple="multiple">
-                    @foreach (var cat in ViewBag.Categories)
-                    {
-                        <option value="@cat.Id">@cat.Name</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -53,15 +43,6 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts{
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('.js-example-basic-multiple').select2();
-        });
-    </script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-

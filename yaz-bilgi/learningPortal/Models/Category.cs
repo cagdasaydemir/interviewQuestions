@@ -9,7 +9,5 @@ namespace learningPortal.Models
         [Required]
         public string Name { get; set; }
 
-        //Relationships
-        public ICollection<CourseCategory> Courses { get; set; }
     }
 }

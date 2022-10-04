@@ -12,8 +12,8 @@ using learningPortal.Data;
 namespace learningPortal.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221002202500_courseInitial")]
-    partial class courseInitial
+    [Migration("20221004133025_fixModelRelations")]
+    partial class fixModelRelations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -89,7 +89,7 @@ namespace learningPortal.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("learningPortal.Models.Course", b =>
+            modelBuilder.Entity("learningPortal.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -103,7 +103,84 @@ namespace learningPortal.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Online"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Kitap"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Sunum"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Makale"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Mini Proje"
+                        });
+                });
+
+            modelBuilder.Entity("learningPortal.Models.Course", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Quota")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("learningPortal.Models.CourseCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("CourseCategory");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -136,14 +213,14 @@ namespace learningPortal.Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "1322bb5b-40c7-4777-992d-ad88aa03a319",
+                            ConcurrencyStamp = "c4354163-70d5-4bb9-8e95-459d12b3373e",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "c607fe81-1062-4830-bb9c-3ea2e2838306",
+                            ConcurrencyStamp = "3550907a-6ee3-4845-836f-8afafee1dbc7",
                             Name = "Lecturer",
                             NormalizedName = "LECTURER"
                         });
@@ -257,6 +334,25 @@ namespace learningPortal.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("learningPortal.Models.CourseCategory", b =>
+                {
+                    b.HasOne("learningPortal.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("learningPortal.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

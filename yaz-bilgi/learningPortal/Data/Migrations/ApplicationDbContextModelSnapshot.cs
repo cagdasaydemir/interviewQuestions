@@ -160,15 +160,23 @@ namespace learningPortal.Data.Migrations
 
             modelBuilder.Entity("learningPortal.Models.CourseCategory", b =>
                 {
-                    b.Property<int>("CourseId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.HasKey("CourseId", "CategoryId");
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("CourseId");
 
                     b.ToTable("CourseCategory");
                 });
@@ -203,14 +211,14 @@ namespace learningPortal.Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "881f7ea2-806b-4616-93ed-d2eafb9dc156",
+                            ConcurrencyStamp = "c4354163-70d5-4bb9-8e95-459d12b3373e",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "be204f15-e1f3-4484-ba7e-85cd7c1f03c5",
+                            ConcurrencyStamp = "3550907a-6ee3-4845-836f-8afafee1dbc7",
                             Name = "Lecturer",
                             NormalizedName = "LECTURER"
                         });
@@ -329,13 +337,13 @@ namespace learningPortal.Data.Migrations
             modelBuilder.Entity("learningPortal.Models.CourseCategory", b =>
                 {
                     b.HasOne("learningPortal.Models.Category", "Category")
-                        .WithMany("Courses")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("learningPortal.Models.Course", "Course")
-                        .WithMany("Categories")
+                        .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -394,16 +402,6 @@ namespace learningPortal.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("learningPortal.Models.Category", b =>
-                {
-                    b.Navigation("Courses");
-                });
-
-            modelBuilder.Entity("learningPortal.Models.Course", b =>
-                {
-                    b.Navigation("Categories");
                 });
 #pragma warning restore 612, 618
         }

@@ -23,7 +23,7 @@ namespace learningPortal.Data
             builder.Entity<IdentityRole>().HasData(new IdentityRole { Id = "1", Name = "Student", NormalizedName = "STUDENT".ToUpper() },
                 new IdentityRole { Id = "2", Name = "Lecturer", NormalizedName = "LECTURER".ToUpper() });
 
-            builder.Entity<CourseCategory>().HasKey(key => new {key.CourseId, key.CategoryId});
+
 
             builder.Entity<Category>().HasData(
                new Category { Id = 1, Name = "Online" },

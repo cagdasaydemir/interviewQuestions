@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using learningPortal.Data;
 using learningPortal.Models;
+using learningPortal.Models.ViewModels;
 
 namespace learningPortal.Controllers
 {
@@ -46,7 +47,8 @@ namespace learningPortal.Controllers
         // GET: Courses/Create
         public IActionResult Create()
         {
-            return View();
+            CourseCreateVM vm = new CourseCreateVM();
+            return View(vm);
         }
 
         // POST: Courses/Create
@@ -54,15 +56,21 @@ namespace learningPortal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Quota,Price")] Course course)
+        public async Task<IActionResult> Create(CourseCreateVM vm)
         {
             if (ModelState.IsValid)
             {
+                Course course = new Course();
+                course.Name = vm.Name;
+                course.Description = vm.Description;
+                course.Quota = vm.Quota;
+                course.Price = vm.Price;
+
                 _context.Add(course);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(course);
+            return View("Create");
         }
 
         // GET: Courses/Edit/5

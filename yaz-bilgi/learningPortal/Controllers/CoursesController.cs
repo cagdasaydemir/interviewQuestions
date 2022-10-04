@@ -68,12 +68,22 @@ namespace learningPortal.Controllers
             course.Price = vm.Price;
             course.LecturerEnum = vm.LecturerEnum;
 
-            if (vm.ImgFile != null)
+            if (vm.Files != null)
             {
-                var uniqueFileName = GetUniqueFileName(vm.ImgFile.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", uniqueFileName);
-                vm.ImgFile.CopyTo(new FileStream(filePath, FileMode.Create));
-                course.ImgUrl = uniqueFileName;
+                vm.Files.ForEach(file =>
+                {
+
+                    var uniqueFileName = GetUniqueFileName(file.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", uniqueFileName);
+                    file.CopyTo(new FileStream(filePath, FileMode.Create));
+                    CourseFile courseFile = new CourseFile();
+                    courseFile.FileURL = filePath;
+                    courseFile.Course = course;
+                    _context.CourseFiles.Add(courseFile);
+
+                });
+
+
             }
 
             _context.Courses.Add(course);

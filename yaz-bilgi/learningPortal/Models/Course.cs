@@ -18,7 +18,7 @@ namespace learningPortal.Models
   
         public LecturerEnum LecturerEnum { get; set; }
 
-        public string ImgUrl { get; set; }
+        public ICollection<CourseFile> CourseFiles { get; set; }
 
     }
 }

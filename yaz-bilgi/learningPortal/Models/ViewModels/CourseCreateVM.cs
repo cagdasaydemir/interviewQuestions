@@ -21,8 +21,8 @@ namespace learningPortal.Models.ViewModels
        
         public LecturerEnum LecturerEnum { get; set; }
 
-        public string ImgUrl { get; set; }
-        public IFormFile ImgFile { get; set; }
+        //public Course Course { get; set; }
+        public List<IFormFile> Files { get; set; }
 
         public List<int> CategoryIds { get; set; } = new List<int>();
     }

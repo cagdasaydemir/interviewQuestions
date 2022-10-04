@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Reflection.Emit;
 
 namespace learningPortal.Data
 {
@@ -15,6 +17,7 @@ namespace learningPortal.Data
         public DbSet<Course> Courses { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<CourseCategory> CourseCategory { get; set; }
+        public DbSet<CourseFile> CourseFiles { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -30,8 +33,13 @@ namespace learningPortal.Data
                new Category { Id = 2, Name = "Kitap" },
                new Category { Id = 3, Name = "Sunum" },
                new Category { Id = 4, Name = "Makale" },
-               new Category { Id = 5, Name = "Mini Proje" }
+            new Category { Id = 5, Name = "Mini Proje" }
            );
+
+
+            builder.Entity<Course>()
+       .HasMany(c => c.CourseFiles)
+       .WithOne(e => e.Course);
         }
     }
 }

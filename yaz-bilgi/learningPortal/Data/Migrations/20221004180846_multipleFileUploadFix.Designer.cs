@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using learningPortal.Data;
 
@@ -11,9 +12,10 @@ using learningPortal.Data;
 namespace learningPortal.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221004180846_multipleFileUploadFix")]
+    partial class multipleFileUploadFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -236,14 +238,14 @@ namespace learningPortal.Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "fa6fed02-7724-407b-b69f-22bd3b3908ee",
+                            ConcurrencyStamp = "b9a1ceff-df71-49e3-a523-ff467f454a29",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "50f00fa6-8929-4ca4-b64d-ba4923a86eda",
+                            ConcurrencyStamp = "cf1e9103-03cd-44dc-bf86-7e61497ffeb3",
                             Name = "Lecturer",
                             NormalizedName = "LECTURER"
                         });

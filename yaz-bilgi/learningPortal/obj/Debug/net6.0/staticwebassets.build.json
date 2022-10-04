@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "a9E1HSWoqW69VfEBUhj3mXh0vsy38XwYIsK2ikYoi74=",
+  "Hash": "qtadRnE2TGMK6/0MRUas/KQw5sBuy4Up93a2oq8hp0I=",
   "Source": "learningPortal",
   "BasePath": "_content/learningPortal",
   "Mode": "Default",
@@ -1103,6 +1103,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\Cagdas Aydemir\\Documents\\GitHub\\interviewQuestions\\yaz-bilgi\\learningPortal\\wwwroot\\images\\1_ed45.png",
+      "SourceId": "learningPortal",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Cagdas Aydemir\\Documents\\GitHub\\interviewQuestions\\yaz-bilgi\\learningPortal\\wwwroot\\",
+      "BasePath": "_content/learningPortal",
+      "RelativePath": "images/1_ed45.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\1_ed45.png"
     },
     {
       "Identity": "C:\\Users\\Cagdas Aydemir\\Documents\\GitHub\\interviewQuestions\\yaz-bilgi\\learningPortal\\wwwroot\\js\\site.js",

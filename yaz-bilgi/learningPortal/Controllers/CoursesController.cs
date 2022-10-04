@@ -23,7 +23,7 @@ namespace learningPortal.Controllers
         // GET: Courses
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Courses.ToListAsync());
+            return View(await _context.Courses.ToListAsync());
         }
 
         // GET: Courses/Details/5
@@ -59,35 +59,46 @@ namespace learningPortal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CourseCreateVM vm)
+        public async Task<IActionResult> CreateCourse(CourseCreateVM vm)
         {
-            if (ModelState.IsValid)
+            Course course = new Course();
+            course.Name = vm.Name;
+            course.Description = vm.Description;
+            course.Quota = vm.Quota;
+            course.Price = vm.Price;
+            course.LecturerEnum = vm.LecturerEnum;
+
+            if (vm.ImgFile != null)
             {
-                Course course = new Course();
-                course.Name = vm.Name;
-                course.Description = vm.Description;
-                course.Quota = vm.Quota;
-                course.Price = vm.Price;
-                course.LecturerEnum = vm.LecturerEnum;
-
-                _context.Courses.Add(course);
-                await _context.SaveChangesAsync();
-                
-                vm.CategoryIds.ForEach(category =>
-                {
-                    CourseCategory courseCategory = new CourseCategory();
-                    courseCategory.Course = course;
-                    courseCategory.Category = _context.Categories.FirstOrDefault(c => c.Id == category);
-
-                    _context.CourseCategory.Add(courseCategory);
-
-                });
-
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var uniqueFileName = GetUniqueFileName(vm.ImgFile.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", uniqueFileName);
+                vm.ImgFile.CopyTo(new FileStream(filePath, FileMode.Create));
+                course.ImgUrl = uniqueFileName;
             }
-           
-            return View("Create");
+
+            _context.Courses.Add(course);
+            await _context.SaveChangesAsync();
+
+            vm.CategoryIds.ForEach(category =>
+            {
+                CourseCategory courseCategory = new CourseCategory();
+                courseCategory.Course = course;
+                courseCategory.Category = _context.Categories.FirstOrDefault(c => c.Id == category);
+
+                _context.CourseCategory.Add(courseCategory);
+
+            });
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        private string GetUniqueFileName(string fileName)
+        {
+            fileName = Path.GetFileName(fileName);
+            return Path.GetFileNameWithoutExtension(fileName)
+                      + "_"
+                      + Guid.NewGuid().ToString().Substring(0, 4)
+                      + Path.GetExtension(fileName);
         }
 
         // GET: Courses/Edit/5
@@ -173,14 +184,14 @@ namespace learningPortal.Controllers
             {
                 _context.Courses.Remove(course);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CourseExists(int id)
         {
-          return _context.Courses.Any(e => e.Id == id);
+            return _context.Courses.Any(e => e.Id == id);
         }
     }
 }

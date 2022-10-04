@@ -20,6 +20,10 @@ namespace learningPortal.Models.ViewModels
         //public string Lecturer { get; set; }
        
         public LecturerEnum LecturerEnum { get; set; }
+
+        public string ImgUrl { get; set; }
+        public IFormFile ImgFile { get; set; }
+
         public List<int> CategoryIds { get; set; } = new List<int>();
     }
 }

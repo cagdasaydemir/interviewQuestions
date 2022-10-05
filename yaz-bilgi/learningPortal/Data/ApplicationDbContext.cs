@@ -18,6 +18,7 @@ namespace learningPortal.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<CourseCategory> CourseCategory { get; set; }
         public DbSet<CourseFile> CourseFiles { get; set; }
+        public DbSet<UserCourse> UserCourse { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

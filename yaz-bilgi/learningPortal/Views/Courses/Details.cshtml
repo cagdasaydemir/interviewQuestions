@@ -78,6 +78,23 @@
                 <br/>
             }
         </dd>
+        <dt class="col-sm-2">
+           User Id
+        </dt>
+        <dd class="col-sm-10">
+            @Model.userId
+        </dd>
+        <dd class="col-sm-10">
+            <form asp-action="DetailsRequest"
+                  asp-route-id="@Model.Course.Id">
+                <button type="submit" class="btn btn-danger">
+                    Request
+                </button>
+            </form>
+           
+            <a class="nav-link text-dark" asp-action="Index">Home</a>
+            <a class="nav-link text-dark" asp-action="Index">Home</a>
+        </dd>
     </dl>
   
 </div>

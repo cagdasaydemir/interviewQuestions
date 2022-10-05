@@ -8,16 +8,23 @@ using Microsoft.EntityFrameworkCore;
 using learningPortal.Data;
 using learningPortal.Models;
 using learningPortal.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace learningPortal.Controllers
 {
     public class CoursesController : Controller
     {
+
+        private UserManager<AppUser> _userManager;
+
+        //class constructor
+        
         private readonly ApplicationDbContext _context;
 
-        public CoursesController(ApplicationDbContext context)
+        public CoursesController(ApplicationDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Courses
@@ -33,16 +40,26 @@ namespace learningPortal.Controllers
             {
                 return NotFound();
             }
-
-            CourseDetailVM vm = new CourseDetailVM();
-            vm.Course = _context.Courses.Where(m => m.Id == id).FirstOrDefault();
-
-            if (vm.Course == null)
+           
+            
+           
+            var course = _context.Courses.Where(m => m.Id == id).FirstOrDefault();
+            
+            if (course == null)
             {
                 return NotFound();
             }
             else
             {
+                
+                System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+                var userId = _userManager.GetUserId(currentUser); // Get user id:
+                
+
+                CourseDetailVM vm = new CourseDetailVM();
+                vm.Course = course;
+
+                vm.userId = userId;
                 vm.Categories = _context.CourseCategory
                                 .Where(cm => cm.Course.Id == id)
                                 .Include(cm => cm.Category)
@@ -50,10 +67,31 @@ namespace learningPortal.Controllers
                 vm.Course.CourseFiles = _context.CourseFiles
                                      .Where(cm => cm.Course.Id == id).ToList();
 
-                
+                return View(vm);
             }       
 
-            return View(vm);
+            
+        }
+        [HttpPost]
+        
+        public async Task<IActionResult> DetailsRequest(int? id)
+        {
+           
+
+            UserCourse userCourse = new UserCourse();
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+            var userId = _userManager.GetUserId(currentUser); // Get user id:
+
+            userCourse.AppUser = await _userManager.FindByIdAsync(userId);
+            userCourse.Course = _context.Courses.FirstOrDefault(m => m.Id == id);
+            userCourse.IsRequested = true;
+
+
+            _context.UserCourse.Add(userCourse);
+            await _context.SaveChangesAsync();
+
+
+            return RedirectToAction("Details", new { Id = userCourse.Course.Id });
         }
 
         // GET: Courses/Create

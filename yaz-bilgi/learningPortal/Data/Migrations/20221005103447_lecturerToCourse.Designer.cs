@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using learningPortal.Data;
 
@@ -11,9 +12,10 @@ using learningPortal.Data;
 namespace learningPortal.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221005103447_lecturerToCourse")]
+    partial class lecturerToCourse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,9 +145,6 @@ namespace learningPortal.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Lecturer")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -162,9 +161,6 @@ namespace learningPortal.Data.Migrations
 
                     b.Property<int>("Quota")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -246,14 +242,14 @@ namespace learningPortal.Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "aca142b7-f3a4-4017-9625-562478839307",
+                            ConcurrencyStamp = "9efa7e5d-f037-4c05-a97a-da14d401e0ac",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "e02c20ee-0df3-4e44-8a67-85979441dce6",
+                            ConcurrencyStamp = "b3c27f93-a28e-4663-b171-ee2b8df1079d",
                             Name = "Lecturer",
                             NormalizedName = "LECTURER"
                         });

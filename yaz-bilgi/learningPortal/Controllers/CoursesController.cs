@@ -67,6 +67,9 @@ namespace learningPortal.Controllers
             course.Quota = vm.Quota;
             course.Price = vm.Price;
             course.LecturerEnum = vm.LecturerEnum;
+            course.Lecturer = vm.Lecturer;
+            course.StartDate = vm.StartDate;
+            course.EndDate = vm.EndDate;
 
             if (vm.Files != null)
             {

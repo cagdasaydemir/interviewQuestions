@@ -58,8 +58,15 @@ namespace learningPortal.Controllers
 
                 CourseDetailVM vm = new CourseDetailVM();
                 vm.Course = course;
-
                 vm.userId = userId;
+
+                vm.IsRequested= _context.UserCourse
+                                .Where(cm => cm.Course.Id == id).Select(cm => cm.IsRequested).FirstOrDefault();
+                vm.IsAccepted = _context.UserCourse
+                                .Where(cm => cm.Course.Id == id).Select(cm => cm.IsAccepted).FirstOrDefault();
+                vm.IsCompleted = _context.UserCourse
+                                .Where(cm => cm.Course.Id == id).Select(cm => cm.IsCompleted).FirstOrDefault();
+
                 vm.Categories = _context.CourseCategory
                                 .Where(cm => cm.Course.Id == id)
                                 .Include(cm => cm.Category)
@@ -72,27 +79,81 @@ namespace learningPortal.Controllers
 
             
         }
+
         [HttpPost]
-        
         public async Task<IActionResult> DetailsRequest(int? id)
         {
            
-
-            UserCourse userCourse = new UserCourse();
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
             var userId = _userManager.GetUserId(currentUser); // Get user id:
+            UserCourse userCourse = new UserCourse();
+            var course = await _context.UserCourse.Where(cm => cm.Course.Id == id).FirstOrDefaultAsync();
 
-            userCourse.AppUser = await _userManager.FindByIdAsync(userId);
-            userCourse.Course = _context.Courses.FirstOrDefault(m => m.Id == id);
-            userCourse.IsRequested = true;
+            if (course == null)
+            {
+                
+                userCourse.IsRequested = true;
+            
+                userCourse.AppUser = await _userManager.FindByIdAsync(userId);
+                userCourse.Course = await _context.Courses.FirstOrDefaultAsync(m => m.Id == id);
 
+                await _context.UserCourse.AddAsync(userCourse);
+            }
+            else
+            {
+                userCourse = _context.UserCourse.Where(cm => cm.Course.Id == id).FirstOrDefault();
+                userCourse.IsRequested = !(userCourse.IsRequested);
+                 _context.UserCourse.Update(userCourse);
+                
+            }
+            
 
-            _context.UserCourse.Add(userCourse);
+           
+            
             await _context.SaveChangesAsync();
 
 
-            return RedirectToAction("Details", new { Id = userCourse.Course.Id });
+            return RedirectToAction("Details", new { Id = id });
         }
+        [HttpPost]
+        //public async Task<IActionResult> DetailsAccept(int? id)
+        //{
+
+
+        //    UserCourse userCourse = new UserCourse();
+        //    System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+        //    var userId = _userManager.GetUserId(currentUser); // Get user id:
+
+        //    userCourse.AppUser = await _userManager.FindByIdAsync(userId);
+        //    userCourse.Course = _context.Courses.FirstOrDefault(m => m.Id == id);
+        //    userCourse.IsAccepted = true;
+
+
+        //    _context.UserCourse.Add(userCourse);
+        //    await _context.SaveChangesAsync();
+
+
+        //    return RedirectToAction("Details", new { Id = userCourse.Course.Id });
+        //}
+        //public async Task<IActionResult> DetailsComplete(int? id)
+        //{
+
+
+        //    UserCourse userCourse = new UserCourse();
+        //    System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+        //    var userId = _userManager.GetUserId(currentUser); // Get user id:
+
+        //    userCourse.AppUser = await _userManager.FindByIdAsync(userId);
+        //    userCourse.Course = _context.Courses.FirstOrDefault(m => m.Id == id);
+        //    userCourse.IsCompleted = true;
+
+
+        //    _context.UserCourse.Add(userCourse);
+        //    await _context.SaveChangesAsync();
+
+
+        //    return RedirectToAction("Details", new { Id = userCourse.Course.Id });
+        //}
 
         // GET: Courses/Create
         public IActionResult Create()

@@ -8,8 +8,8 @@
         public Course Course { get; set; }
         public AppUser AppUser { get; set; }
 
-        public Boolean IsRequested { get; set; } = false;
-        public Boolean IsAccepted { get; set; } = false;
-        public Boolean IsCompleted { get; set; } = false;
+        public Boolean IsRequested { get; set; } 
+        public Boolean IsAccepted { get; set; }
+        public Boolean IsCompleted { get; set; }
     }
 }

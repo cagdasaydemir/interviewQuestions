@@ -85,15 +85,36 @@
             @Model.userId
         </dd>
         <dd class="col-sm-10">
+           
             <form asp-action="DetailsRequest"
                   asp-route-id="@Model.Course.Id">
+                @if (@Model.IsRequested == true)
+                {
                 <button type="submit" class="btn btn-danger">
+                    Vazgeç
+                </button>
+                }else{
+                     <button type="submit" class="btn btn-danger">
                     Request
                 </button>
+                }
             </form>
            
-            <a class="nav-link text-dark" asp-action="Index">Home</a>
-            <a class="nav-link text-dark" asp-action="Index">Home</a>
+            
+           
+           
+          @*<form asp-action="DetailsAccepted"
+                  asp-route-id="@Model.Course.Id">
+                <button type="submit" class="btn btn-danger">
+                  Request
+                </button>
+            </form>
+            <form asp-action="DetailsCompleted"
+                  asp-route-id="@Model.Course.Id">
+                <button type="submit" class="btn btn-danger">
+                    Complete
+                </button>
+            </form>*@
         </dd>
     </dl>
   

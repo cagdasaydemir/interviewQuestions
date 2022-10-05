@@ -15,7 +15,7 @@ namespace learningPortal.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public LecturerEnum LecturerEnum { get; set; }
-        public ICollection<CourseFile> CourseFiles { get; set; }
+        public List<CourseFile> CourseFiles { get; set; }
 
     }
 }

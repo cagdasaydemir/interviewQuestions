@@ -34,14 +34,26 @@ namespace learningPortal.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Courses
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (course == null)
+            CourseDetailVM vm = new CourseDetailVM();
+            vm.Course = _context.Courses.Where(m => m.Id == id).FirstOrDefault();
+
+            if (vm.Course == null)
             {
                 return NotFound();
             }
+            else
+            {
+                vm.Categories = _context.CourseCategory
+                                .Where(cm => cm.Course.Id == id)
+                                .Include(cm => cm.Category)
+                                .Select(cm => cm.Category).ToList();
+                vm.Course.CourseFiles = _context.CourseFiles
+                                     .Where(cm => cm.Course.Id == id).ToList();
+                                         
 
-            return View(course);
+            }       
+
+            return View(vm);
         }
 
         // GET: Courses/Create

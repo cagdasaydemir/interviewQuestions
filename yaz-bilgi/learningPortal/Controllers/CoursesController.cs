@@ -49,8 +49,8 @@ namespace learningPortal.Controllers
                                 .Select(cm => cm.Category).ToList();
                 vm.Course.CourseFiles = _context.CourseFiles
                                      .Where(cm => cm.Course.Id == id).ToList();
-                                         
 
+                
             }       
 
             return View(vm);

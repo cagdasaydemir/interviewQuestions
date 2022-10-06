@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
-  
+
 }
 
 <h1>Details</h1>
@@ -11,16 +11,16 @@
     <h4>Course</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             Name
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Model.Course.Name
         </dd>
-        <dt class = "col-sm-2">
-           Description
+        <dt class="col-sm-2">
+            Description
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Model.Course.Description
         </dd>
         <dt class="col-sm-2">
@@ -35,90 +35,106 @@
         <dd class="col-sm-10">
             @Model.Course.LecturerEnum
         </dd>
-        <dt class = "col-sm-2">
-           Quota
+        <dt class="col-sm-2">
+            Quota
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Model.Course.Quota
         </dd>
-        <dt class = "col-sm-2">
-           Price
+        <dt class="col-sm-2">
+            Price
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Model.Course.Price
         </dd>
         <dt class="col-sm-2">
-           Start Date
+            Start Date
         </dt>
         <dd class="col-sm-10">
             @Model.Course.StartDate
         </dd>
         <dt class="col-sm-2">
-          End Date
+            End Date
         </dt>
         <dd class="col-sm-10">
-            @Model.Course.EndDate 
+            @Model.Course.EndDate
         </dd>
         <dt class="col-sm-2">
             Categories
         </dt>
         <dd class="col-sm-10">
+            @if(Model.Categories.Count == 0){
+                <span class="badge bg-secondary">No any Categories</span>
+            }else{
             @foreach (var category in @Model.Categories)
             {
-                <span class="badge bg-secondary">@category.Name</span>
+                <span class="badge bg-info">@category.Name</span>
+            }
             }
         </dd>
         <dt class="col-sm-2">
             Course Files
         </dt>
         <dd class="col-sm-10">
-            @foreach (var file in @Model.Course.CourseFiles)
-            {
-                <span class="badge bg-info  ">@file.FileURL</span>
-                <br/>
-            }
-        </dd>
-        <dt class="col-sm-2">
-           User Id
-        </dt>
-        <dd class="col-sm-10">
-            @Model.userId
-        </dd>
-        <dd class="col-sm-10">
-           
-            <form asp-action="DetailsRequest"
-                  asp-route-id="@Model.Course.Id">
-                @if (@Model.IsRequested == true)
+            @if(Model.Course.CourseFiles.Count == 0){
+                <span class="badge bg-secondary">No any Course File</span>
+            }else{
+                @foreach (var file in @Model.Course.CourseFiles)
                 {
-                <button type="submit" class="btn btn-danger">
-                    Vazgeç
-                </button>
-                }else{
-                     <button type="submit" class="btn btn-danger">
-                    Request
-                </button>
+                    <span class="badge bg-info">@file.FileURL</span>
+                    <br />
                 }
-            </form>
-           
+            }
             
-           
-           
-          @*<form asp-action="DetailsAccepted"
-                  asp-route-id="@Model.Course.Id">
-                <button type="submit" class="btn btn-danger">
-                  Request
-                </button>
-            </form>
-            <form asp-action="DetailsCompleted"
-                  asp-route-id="@Model.Course.Id">
-                <button type="submit" class="btn btn-danger">
-                    Complete
-                </button>
-            </form>*@
         </dd>
     </dl>
-  
 </div>
+<section class="d-flex align-items-center justify-content-start ">
+    <form class="m-3" asp-action="DetailsRequest"
+          asp-route-id="@Model.Course.Id">
+        @if (Model.IsRequested & Model.IsAccepted == false)
+        {
+            <button type="submit" class="btn btn-danger">
+                Cancel Request
+            </button>
+        }
+        else if (Model.IsRequested == false)
+        {
+            <button type="submit" class="btn btn-success">
+                Request
+            </button>
+        }
+    </form>
+    <div class="m-3">
+        @if (Model.IsAccepted)
+        {
+            <div class="">
+                <span class="badge bg-success">Accepted</span>
+            </div>
+        }
+        else if (Model.IsRequested)
+        {
+            <div class="">
+                <span class="badge bg-secondary">Waiting to be accepted</span>
+            </div>
+        }
+    </div>
+    <form class="m-3" asp-action="DetailsComplete"
+          asp-route-id="@Model.Course.Id">
+        @if (Model.IsCompleted)
+        {
+            <div class="">
+                <span class="badge bg-success">Completed</span>
+            </div>
+        }
+        else if (Model.IsRequested & Model.IsAccepted)
+        {
+            <button type="submit" class="btn btn-warning">
+                Complete
+            </button>
+        }
+    </form>
+</section>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Course.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

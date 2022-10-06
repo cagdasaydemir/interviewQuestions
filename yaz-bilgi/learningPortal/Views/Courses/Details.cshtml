@@ -63,29 +63,35 @@
             Categories
         </dt>
         <dd class="col-sm-10">
-            @if(Model.Categories.Count == 0){
-                <span class="badge bg-secondary">No any Categories</span>
-            }else{
-            @foreach (var category in @Model.Categories)
+            @if (Model.Categories.Count == 0)
             {
-                <span class="badge bg-info">@category.Name</span>
+                <span class="badge bg-secondary">No any Categories</span>
             }
+            else
+            {
+                @foreach (var category in @Model.Categories)
+                {
+                    <span class="badge bg-info">@category.Name</span>
+                }
             }
         </dd>
         <dt class="col-sm-2">
             Course Files
         </dt>
         <dd class="col-sm-10">
-            @if(Model.Course.CourseFiles.Count == 0){
+            @if (Model.Course.CourseFiles.Count == 0)
+            {
                 <span class="badge bg-secondary">No any Course File</span>
-            }else{
+            }
+            else
+            {
                 @foreach (var file in @Model.Course.CourseFiles)
                 {
                     <span class="badge bg-info">@file.FileURL</span>
                     <br />
                 }
             }
-            
+
         </dd>
     </dl>
 </div>

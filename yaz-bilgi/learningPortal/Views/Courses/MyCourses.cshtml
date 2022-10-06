@@ -1,0 +1,87 @@
+﻿@model List<Course>
+
+@{
+    ViewData["Title"] = "MyCourses";
+    string courseTitle = ViewBag.CoursesTitle;
+}
+
+<h1>My Courses</h1>
+
+<h2>@courseTitle</h2>
+<section>
+
+    <a class="btn btn-success" asp-action="MyCourses" asp-route-courseStatus="IsRequested">Requested Ones</a>
+
+    <a class="btn btn-success" asp-action="MyCourses" asp-route-courseStatus="IsAccepted">Accepted Ones</a>
+
+    <a class="btn btn-success" asp-action="MyCourses" asp-route-courseStatus="IsCompleted">Completed Ones</a>
+
+</section>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Quota
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Lecturer
+            </th>
+            <th>
+                Start Date
+            </th>
+            <th>
+                End Date
+            </th>
+            <th>
+                Lecturer Enum
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quota)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lecturer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LecturerEnum)
+                </td>
+                @*<td>
+            <button><a asp-action="MyCoursesRequest" asp-route-id="@item.Id">Cancel Request</a> </button>|
+            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>*@
+            </tr>
+        }
+    </tbody>
+</table>

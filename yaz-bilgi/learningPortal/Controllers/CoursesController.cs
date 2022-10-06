@@ -18,7 +18,7 @@ namespace learningPortal.Controllers
         private UserManager<AppUser> _userManager;
 
         //class constructor
-        
+
         private readonly ApplicationDbContext _context;
 
         public CoursesController(ApplicationDbContext context, UserManager<AppUser> userManager)
@@ -28,6 +28,62 @@ namespace learningPortal.Controllers
         }
 
         // GET: Courses
+        public async Task<IActionResult> MyCourses(string courseStatus)
+        {
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+            var userId = _userManager.GetUserId(currentUser);
+            List<Course> myCourses = new List<Course>();
+            if (courseStatus == "IsAccepted")
+            {
+                ViewBag.CoursesTitle = "Accepted Courses";
+                myCourses = await _context.UserCourse.Where(uc => uc.AppUser.Id == userId).Where(uc => uc.IsAccepted == true).Include(uc => uc.Course).Select(uc => uc.Course).ToListAsync();
+            }
+            else if (courseStatus == "IsCompleted")
+            {
+                ViewBag.CoursesTitle = "Completed Courses";
+                myCourses = await _context.UserCourse.Where(uc => uc.AppUser.Id == userId).Where(uc => uc.IsCompleted == true).Include(uc => uc.Course).Select(uc => uc.Course).ToListAsync();
+            }
+            else
+            {
+                ViewBag.CoursesTitle = "Requested Courses";
+                myCourses = await _context.UserCourse.Where(uc => uc.AppUser.Id == userId).Where(uc => uc.IsRequested == true).Include(uc => uc.Course).Select(uc => uc.Course).ToListAsync();
+            }
+
+            return View(myCourses);
+
+
+        }
+        public async Task<IActionResult> MyCoursesShowAccepted()
+        {
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+            var userId = _userManager.GetUserId(currentUser);
+
+            List<Course> myCourses = new List<Course>();
+
+            myCourses = await _context.UserCourse.Where(uc => uc.AppUser.Id == userId).Where(uc => uc.IsAccepted == true).Include(uc => uc.Course).Select(uc => uc.Course).ToListAsync();
+
+            return RedirectToAction("MyCourses", new { Courses = myCourses });
+        }
+        //public async Task<IActionResult> MyCoursesRequest(int id)
+        //{
+        //    System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+        //    var userId = _userManager.GetUserId(currentUser);
+
+        //    UserCourse userCourse = new UserCourse();
+        //    var course = await _context.UserCourse.Where(uc => uc.Course.Id == id).FirstOrDefaultAsync();
+
+
+
+        //        userCourse = _context.UserCourse.Where(uc => uc.Course.Id == id).FirstOrDefault();
+        //        userCourse.IsRequested = !(userCourse.IsRequested);
+
+        //        _context.UserCourse.Update(userCourse);
+
+        //    await _context.SaveChangesAsync();
+
+        //    return RedirectToAction("MyCourses");
+        //}
+
         public async Task<IActionResult> Index()
         {
             return View(await _context.Courses.ToListAsync());
@@ -40,7 +96,7 @@ namespace learningPortal.Controllers
             {
                 return NotFound();
             }
-         
+
             var course = _context.Courses.Where(m => m.Id == id).FirstOrDefault();
             if (course == null)
             {
@@ -48,46 +104,46 @@ namespace learningPortal.Controllers
             }
             else
             {
-                
+
                 System.Security.Claims.ClaimsPrincipal currentUser = this.User;
                 var userId = _userManager.GetUserId(currentUser);
-                
+
                 CourseDetailVM vm = new CourseDetailVM();
                 vm.Course = course;
                 vm.userId = userId;
 
-                vm.IsRequested= _context.UserCourse
-                                .Where(cm => cm.Course.Id == id).Select(cm => cm.IsRequested).FirstOrDefault();
+                vm.IsRequested = _context.UserCourse
+                                .Where(uc => uc.Course.Id == id).Select(uc => uc.IsRequested).FirstOrDefault();
                 vm.IsAccepted = _context.UserCourse
-                                .Where(cm => cm.Course.Id == id).Select(cm => cm.IsAccepted).FirstOrDefault();
+                                .Where(uc => uc.Course.Id == id).Select(uc => uc.IsAccepted).FirstOrDefault();
                 vm.IsCompleted = _context.UserCourse
-                                .Where(cm => cm.Course.Id == id).Select(cm => cm.IsCompleted).FirstOrDefault();
+                                .Where(uc => uc.Course.Id == id).Select(uc => uc.IsCompleted).FirstOrDefault();
 
                 vm.Categories = _context.CourseCategory
-                                .Where(cm => cm.Course.Id == id)
-                                .Include(cm => cm.Category)
-                                .Select(cm => cm.Category).ToList();
+                                .Where(cc => cc.Course.Id == id)
+                                .Include(cc => cc.Category)
+                                .Select(cc => cc.Category).ToList();
 
                 vm.Course.CourseFiles = _context.CourseFiles
-                                     .Where(cm => cm.Course.Id == id).ToList();
+                                     .Where(cf => cf.Course.Id == id).ToList();
 
                 return View(vm);
-            }                 
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> DetailsRequest(int? id)
         {
-           
+
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
             var userId = _userManager.GetUserId(currentUser);
 
             UserCourse userCourse = new UserCourse();
-            var course = await _context.UserCourse.Where(cm => cm.Course.Id == id).FirstOrDefaultAsync();
+            var course = await _context.UserCourse.Where(uc => uc.Course.Id == id).FirstOrDefaultAsync();
 
             if (course == null)
             {
-                
+
                 userCourse.IsRequested = true;
                 userCourse.AppUser = await _userManager.FindByIdAsync(userId);
                 userCourse.Course = await _context.Courses.FirstOrDefaultAsync(m => m.Id == id);
@@ -96,12 +152,12 @@ namespace learningPortal.Controllers
             }
             else
             {
-                userCourse = _context.UserCourse.Where(cm => cm.Course.Id == id).FirstOrDefault();
+                userCourse = _context.UserCourse.Where(uc => uc.Course.Id == id).FirstOrDefault();
                 userCourse.IsRequested = !(userCourse.IsRequested);
 
-                 _context.UserCourse.Update(userCourse);
+                _context.UserCourse.Update(userCourse);
             }
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Details", new { Id = id });
         }
@@ -113,24 +169,12 @@ namespace learningPortal.Controllers
             var userId = _userManager.GetUserId(currentUser);
 
             UserCourse userCourse = new UserCourse();
-            var course = await _context.UserCourse.Where(cm => cm.Course.Id == id).FirstOrDefaultAsync();
+            var course = await _context.UserCourse.Where(uc => uc.Course.Id == id).FirstOrDefaultAsync();
+            userCourse = _context.UserCourse.Where(uc => uc.Course.Id == id).FirstOrDefault();
+            userCourse.IsCompleted = !(userCourse.IsCompleted);
 
-            if (course == null)
-            {
+            _context.UserCourse.Update(userCourse);
 
-                userCourse.IsCompleted = true;
-                userCourse.AppUser = await _userManager.FindByIdAsync(userId);
-                userCourse.Course = await _context.Courses.FirstOrDefaultAsync(m => m.Id == id);
-
-                await _context.UserCourse.AddAsync(userCourse);
-            }
-            else
-            {
-                userCourse = _context.UserCourse.Where(cm => cm.Course.Id == id).FirstOrDefault();
-                userCourse.IsCompleted = !(userCourse.IsCompleted);
-
-                _context.UserCourse.Update(userCourse);
-            }
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Details", new { Id = id });
@@ -198,7 +242,7 @@ namespace learningPortal.Controllers
             });
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", new { Id = course.Id });
         }
         private string GetUniqueFileName(string fileName)
         {

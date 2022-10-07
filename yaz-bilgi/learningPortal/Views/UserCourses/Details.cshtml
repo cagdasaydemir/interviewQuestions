@@ -1,5 +1,5 @@
-﻿@model learningPortal.Models.UserCourse
-
+﻿@inject SignInManager<AppUser> SignInManager
+@model learningPortal.Models.UserCourse
 @{
     ViewData["Title"] = "Details";
 }
@@ -31,6 +31,10 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    @if (SignInManager.IsSignedIn(User) & User.IsInRole("Lecturer"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
+    }
+     |
     <a asp-action="Index">Back to List</a>
 </div>

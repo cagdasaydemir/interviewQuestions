@@ -38,19 +38,19 @@ namespace learningPortal.Controllers
             {
                 ViewBag.CoursesTitle = "Accepted Courses";
                 ViewBag.EmptyMessage = "You haven't enrolled to any courses yet !";
-                myCourses = await _context.UserCourse.Where(uc => uc.AppUser.Id == userId).Where(uc => uc.IsAccepted == true).Include(uc => uc.Course).Select(uc => uc.Course).ToListAsync();
+                myCourses = await _context.UserCourse.Where(uc => uc.AppUser.Id == userId).Where(uc => uc.IsAccepted == true).Include(uc => uc.Course).Include(uc => uc.Course.CourseFiles).Select(uc => uc.Course).ToListAsync();
             }
             else if (courseStatus == "IsCompleted")
             {
                 ViewBag.CoursesTitle = "Completed Courses";
                 ViewBag.EmptyMessage = "You haven't completed any courses yet !";
-                myCourses = await _context.UserCourse.Where(uc => uc.AppUser.Id == userId).Where(uc => uc.IsCompleted == true).Include(uc => uc.Course).Select(uc => uc.Course).ToListAsync();
+                myCourses = await _context.UserCourse.Where(uc => uc.AppUser.Id == userId).Where(uc => uc.IsCompleted == true).Include(uc => uc.Course).Include(uc => uc.Course.CourseFiles).Select(uc => uc.Course).ToListAsync();
             }
             else
             {
                 ViewBag.CoursesTitle = "Requested Courses";
                 ViewBag.EmptyMessage = "You haven't requested any courses yet !";
-                myCourses = await _context.UserCourse.Where(uc => uc.AppUser.Id == userId).Where(uc => uc.IsRequested == true).Include(uc => uc.Course).Select(uc => uc.Course).ToListAsync();
+                myCourses = await _context.UserCourse.Where(uc => uc.AppUser.Id == userId).Where(uc => uc.IsRequested == true).Include(uc => uc.Course).Include(uc => uc.Course.CourseFiles).Select(uc => uc.Course).ToListAsync();
             }
 
             return View(myCourses);
@@ -58,7 +58,7 @@ namespace learningPortal.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Courses.ToListAsync());
+            return View(await _context.Courses.Include(uc => uc.CourseFiles).ToListAsync());
         }
 
 

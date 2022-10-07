@@ -9,9 +9,12 @@ using learningPortal.Data;
 using learningPortal.Models;
 using learningPortal.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace learningPortal.Controllers
 {
+
     public class CoursesController : Controller
     {
 
@@ -28,6 +31,7 @@ namespace learningPortal.Controllers
         }
 
         // GET: Courses
+        [Authorize(Roles = "Lecturer, Student")]
         public async Task<IActionResult> MyCourses(string courseStatus)
         {
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
@@ -131,6 +135,7 @@ namespace learningPortal.Controllers
             }
         }
 
+        [Authorize(Roles = "Lecturer, Student")]
         [HttpPost]
         public async Task<IActionResult> DetailsRequest(int? id)
         {
@@ -161,6 +166,8 @@ namespace learningPortal.Controllers
 
             return RedirectToAction("Details", new { Id = id });
         }
+
+        [Authorize(Roles = "Lecturer, Student")]
         [HttpPost]
         public async Task<IActionResult> DetailsComplete(int? id)
         {
@@ -181,9 +188,8 @@ namespace learningPortal.Controllers
         }
 
 
-
-
         // GET: Courses/Create
+        [Authorize(Roles = "Lecturer")]
         public IActionResult Create()
         {
             CourseCreateVM vm = new CourseCreateVM();
@@ -196,6 +202,7 @@ namespace learningPortal.Controllers
         // POST: Courses/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Lecturer")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateCourse(CourseCreateVM vm)
@@ -254,6 +261,7 @@ namespace learningPortal.Controllers
         }
 
         // GET: Courses/Edit/5
+        [Authorize(Roles = "Lecturer")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Courses == null)
@@ -272,6 +280,7 @@ namespace learningPortal.Controllers
         // POST: Courses/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Lecturer")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Quota,Price")] Course course)
@@ -305,6 +314,7 @@ namespace learningPortal.Controllers
         }
 
         // GET: Courses/Delete/5
+        [Authorize(Roles = "Lecturer")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Courses == null)
@@ -323,6 +333,7 @@ namespace learningPortal.Controllers
         }
 
         // POST: Courses/Delete/5
+        [Authorize(Roles = "Lecturer")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -17,71 +17,81 @@
     <a class="btn btn-success" asp-action="MyCourses" asp-route-courseStatus="IsCompleted">Completed Ones</a>
 
 </section>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Description
-            </th>
-            <th>
-                Quota
-            </th>
-            <th>
-                Price
-            </th>
-            <th>
-                Lecturer
-            </th>
-            <th>
-                Start Date
-            </th>
-            <th>
-                End Date
-            </th>
-            <th>
-                Lecturer Enum
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+@if (Model.Count == 0)
+    {
+        <h2 class="m-5">
+            You haven't requested any courses yet !
+        </h2>
+    }else{
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @item.Name
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quota)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Lecturer)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LecturerEnum)
-                </td>
-                @*<td>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Quota
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Lecturer
+                </th>
+                <th>
+                    Start Date
+                </th>
+                <th>
+                    End Date
+                </th>
+                <th>
+                    Lecturer Enum
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quota)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lecturer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LecturerEnum)
+                    </td>
+                    @*<td>
             <button><a asp-action="MyCoursesRequest" asp-route-id="@item.Id">Cancel Request</a> </button>|
             <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
             <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>*@
-            </tr>
-        }
-    </tbody>
-</table>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+    }

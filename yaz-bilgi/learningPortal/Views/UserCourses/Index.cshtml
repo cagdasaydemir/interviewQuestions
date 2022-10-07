@@ -1,0 +1,101 @@
+﻿@model IEnumerable<learningPortal.Models.UserCourse>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Course Requests</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table text-center">
+    <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                Course Name
+            </th>
+            <th>
+                Course Start Date
+            </th>
+            <th>
+                Course End Date
+            </th>
+            <th>
+                Username
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Completed
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var userCourse in Model)
+        {
+            <tr class="text-center">
+                <td>
+                    @userCourse.Id
+                </td>
+                <td>
+                    @userCourse.Course.Name
+                </td>
+                <td>
+                    @userCourse.Course.StartDate
+
+                </td>
+                <td>
+
+                    @userCourse.Course.EndDate
+                </td>
+                <td>
+
+                    @userCourse.AppUser
+                </td>
+                <td>
+                    <form class="" asp-action="UserCourseIsAction"
+                      asp-route-id="@userCourse.Id" asp-route-IsAction="accepted">
+                        @if (userCourse.IsAccepted)
+                        {
+                            <button type="submit" class="btn btn-danger">
+                                Reject
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-success">
+                                Accept
+                            </button>
+                        }
+                    </form>
+                </td>
+                <td class="">
+
+                    <div class="d-flex align-items-center justify-content-center">
+                        @if (userCourse.IsCompleted)
+                        {
+                            <span class="badge bg-success">Completed</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning">Not Completed</span>
+                        }
+                    </div>
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@userCourse.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@userCourse.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@userCourse.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

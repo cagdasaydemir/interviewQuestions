@@ -31,7 +31,7 @@ namespace learningPortal.Controllers
         }
 
         // GET: Courses
-        [Authorize(Roles = "Lecturer, Student")]
+                [Authorize(Roles = "Lecturer, Student")]
         public async Task<IActionResult> MyCourses(string courseStatus)
         {
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
@@ -144,7 +144,7 @@ namespace learningPortal.Controllers
             var userId = _userManager.GetUserId(currentUser);
 
             UserCourse userCourse = new UserCourse();
-            var course = await _context.UserCourse.Where(uc => uc.Course.Id == id).FirstOrDefaultAsync();
+            var course = await _context.UserCourse.Where(uc => uc.Course.Id == id).Where(uc => uc.AppUser.Id == userId).FirstOrDefaultAsync();
 
             if (course == null)
             {
@@ -157,7 +157,7 @@ namespace learningPortal.Controllers
             }
             else
             {
-                userCourse = _context.UserCourse.Where(uc => uc.Course.Id == id).FirstOrDefault();
+                userCourse = _context.UserCourse.Where(uc => uc.Course.Id == id).Where(uc => uc.AppUser.Id == userId).FirstOrDefault();
                 userCourse.IsRequested = !(userCourse.IsRequested);
 
                 _context.UserCourse.Update(userCourse);
@@ -176,8 +176,8 @@ namespace learningPortal.Controllers
             var userId = _userManager.GetUserId(currentUser);
 
             UserCourse userCourse = new UserCourse();
-            var course = await _context.UserCourse.Where(uc => uc.Course.Id == id).FirstOrDefaultAsync();
-            userCourse = _context.UserCourse.Where(uc => uc.Course.Id == id).FirstOrDefault();
+           
+            userCourse = _context.UserCourse.Where(uc => uc.Course.Id == id).Where(uc => uc.AppUser.Id == userId).FirstOrDefault();
             userCourse.IsCompleted = !(userCourse.IsCompleted);
 
             _context.UserCourse.Update(userCourse);

@@ -1,15 +1,21 @@
-﻿@model IEnumerable<learningPortal.Models.Course>
+﻿@inject SignInManager<AppUser> SignInManager
+
+@model IEnumerable<learningPortal.Models.Course>
+
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "All Courses";
 }
 
-<h1>Index</h1>
+<h1>All Courses</h1>
+@if (SignInManager.IsSignedIn(User) & User.IsInRole("Lecturer"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -37,26 +43,27 @@
                 @Html.DisplayNameFor(model => model.EndDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CourseFiles)
+                Actions
             </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quota)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-                 <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quota)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Lecturer)
                 </td>
                 <td>
@@ -65,19 +72,20 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.StartDate)
                 </td>
-                 <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CourseFiles)
+                    @Html.DisplayFor(modelItem => item.EndDate)
                 </td>
-               
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    @if (SignInManager.IsSignedIn(User) & User.IsInRole("Lecturer"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id"> Delete </a>
+                    }
+
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

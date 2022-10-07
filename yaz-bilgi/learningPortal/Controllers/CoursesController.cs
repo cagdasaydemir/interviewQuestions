@@ -113,11 +113,11 @@ namespace learningPortal.Controllers
                 vm.userId = userId;
 
                 vm.IsRequested = _context.UserCourse
-                                .Where(uc => uc.Course.Id == id).Select(uc => uc.IsRequested).FirstOrDefault();
+                                .Where(uc => uc.Course.Id == id).Where(uc => uc.AppUser.Id == userId).Select(uc => uc.IsRequested).FirstOrDefault();
                 vm.IsAccepted = _context.UserCourse
-                                .Where(uc => uc.Course.Id == id).Select(uc => uc.IsAccepted).FirstOrDefault();
+                                .Where(uc => uc.Course.Id == id).Where(uc => uc.AppUser.Id == userId).Select(uc => uc.IsAccepted).FirstOrDefault();
                 vm.IsCompleted = _context.UserCourse
-                                .Where(uc => uc.Course.Id == id).Select(uc => uc.IsCompleted).FirstOrDefault();
+                                .Where(uc => uc.Course.Id == id).Where(uc => uc.AppUser.Id == userId).Select(uc => uc.IsCompleted).FirstOrDefault();
 
                 vm.Categories = _context.CourseCategory
                                 .Where(cc => cc.Course.Id == id)

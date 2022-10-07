@@ -2,7 +2,7 @@
 {
     public enum LecturerEnum
     {
-        İç,
-            Dış
+        Inside,
+        Outside
     }
 }

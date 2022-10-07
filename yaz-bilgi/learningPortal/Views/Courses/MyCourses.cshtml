@@ -2,12 +2,11 @@
 
 @{
     ViewData["Title"] = "MyCourses";
-    string courseTitle = ViewBag.CoursesTitle;
 }
 
 <h1>My Courses</h1>
 
-<h2>@courseTitle</h2>
+<h2>@ViewBag.CoursesTitle</h2>
 <section>
 
     <a class="btn btn-success" asp-action="MyCourses" asp-route-courseStatus="IsRequested">Requested Ones</a>
@@ -20,7 +19,7 @@
 @if (Model.Count == 0)
     {
         <h2 class="m-5">
-            You haven't requested any courses yet !
+           @ViewBag.EmptyMessage
         </h2>
     }else{
     <table class="table">

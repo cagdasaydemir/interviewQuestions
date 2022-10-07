@@ -38,11 +38,18 @@ Also, I'm trying to improve my git skills, so there will be lots of git mess.
        <td>2</td>
     </tr>
      <tr>
-      <th scope="row">3</th>
+      <th scope="row">4</th>
       <td>Dinamik Yatırım</td>
       <td>28.06.2022</td>
        <td>6 days</td>
        <td>2</td>
+    </tr>
+     <tr>
+      <th scope="row">5</th>
+      <td>Yaz Bilgi Sistemleri</td>
+      <td>30.09.2022</td>
+       <td>1 week</td>
+       <td>1</td>
     </tr>
   </tbody>
 </table>

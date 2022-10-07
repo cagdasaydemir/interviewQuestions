@@ -81,20 +81,19 @@ namespace learningPortal.Controllers
                 vm.Course = course;
                 vm.userId = userId;
 
-                vm.IsRequested = _context.UserCourse
-                                .Where(uc => uc.Course.Id == id).Where(uc => uc.AppUser.Id == userId).Select(uc => uc.IsRequested).FirstOrDefault();
-                vm.IsAccepted = _context.UserCourse
-                                .Where(uc => uc.Course.Id == id).Where(uc => uc.AppUser.Id == userId).Select(uc => uc.IsAccepted).FirstOrDefault();
-                vm.IsCompleted = _context.UserCourse
-                                .Where(uc => uc.Course.Id == id).Where(uc => uc.AppUser.Id == userId).Select(uc => uc.IsCompleted).FirstOrDefault();
+                vm.IsRequested = await _context.UserCourse
+                                .Where(uc => uc.Course.Id == id).Where(uc => uc.AppUser.Id == userId).Select(uc => uc.IsRequested).FirstOrDefaultAsync();
+                vm.IsAccepted = await _context.UserCourse
+                                .Where(uc => uc.Course.Id == id).Where(uc => uc.AppUser.Id == userId).Select(uc => uc.IsAccepted).FirstOrDefaultAsync();
+                vm.IsCompleted = await _context.UserCourse .Where(uc => uc.Course.Id == id).Where(uc => uc.AppUser.Id == userId).Select(uc => uc.IsCompleted).FirstOrDefaultAsync();
 
-                vm.Categories = _context.CourseCategory
+                vm.Categories =  await _context.CourseCategory
                                 .Where(cc => cc.Course.Id == id)
                                 .Include(cc => cc.Category)
-                                .Select(cc => cc.Category).ToList();
+                                .Select(cc => cc.Category).ToListAsync();
 
-                vm.Course.CourseFiles = _context.CourseFiles
-                                     .Where(cf => cf.Course.Id == id).ToList();
+                vm.Course.CourseFiles = await _context.CourseFiles
+                                     .Where(cf => cf.Course.Id == id).ToListAsync();
 
                 return View(vm);
             }
@@ -107,30 +106,30 @@ namespace learningPortal.Controllers
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
             var userId = _userManager.GetUserId(currentUser);
 
-            UserCourse userCourse = new UserCourse();
+            UserCourse newUserCourse = new UserCourse();
 
-            var checkUserCourse = await _context.UserCourse.Where(uc => uc.Course.Id == id).Where(uc => uc.AppUser.Id == userId).FirstOrDefaultAsync();
-            if (checkUserCourse == null)
+            var existingUserCourse = await _context.UserCourse.Where(uc => uc.Course.Id == id).Where(uc => uc.AppUser.Id == userId).FirstOrDefaultAsync();
+            if (existingUserCourse == null)
             {
-                userCourse.IsRequested = true;
-                userCourse.AppUser = await _userManager.FindByIdAsync(userId);
-                userCourse.Course = await _context.Courses.FirstOrDefaultAsync(m => m.Id == id);
+                newUserCourse.IsRequested = true;
+                newUserCourse.AppUser = await _userManager.FindByIdAsync(userId);
+                newUserCourse.Course = await _context.Courses.FirstOrDefaultAsync(m => m.Id == id);
 
-                await _context.UserCourse.AddAsync(userCourse);
+                await _context.UserCourse.AddAsync(newUserCourse);
             }
             else
             {
-                userCourse = _context.UserCourse.Where(uc => uc.Course.Id == id).Where(uc => uc.AppUser.Id == userId).FirstOrDefault();
+               
                 if (IsAction == "requested")
                 {
-                    userCourse.IsRequested = !(userCourse.IsRequested);
-                    _context.UserCourse.Update(userCourse);
+                    existingUserCourse.IsRequested = !(existingUserCourse.IsRequested);
+                    _context.UserCourse.Update(existingUserCourse);
                 }
                 else
                     if (IsAction == "completed")
                 {
-                    userCourse.IsCompleted = !(userCourse.IsCompleted);
-                    _context.UserCourse.Update(userCourse);
+                    existingUserCourse.IsCompleted = !(existingUserCourse.IsCompleted);
+                    _context.UserCourse.Update(existingUserCourse);
                 }
             }
 
@@ -179,12 +178,12 @@ namespace learningPortal.Controllers
                     courseFile.FileURL = filePath;
                     courseFile.Course = course;
 
-                    _context.CourseFiles.Add(courseFile);
+                     _context.CourseFiles.AddAsync(courseFile);
                 });
 
             }
 
-            _context.Courses.Add(course);
+            await _context.Courses.AddAsync(course);
             await _context.SaveChangesAsync();
 
             vm.CategoryIds.ForEach(category =>
@@ -193,7 +192,7 @@ namespace learningPortal.Controllers
                 courseCategory.Course = course;
                 courseCategory.Category = _context.Categories.FirstOrDefault(c => c.Id == category);
 
-                _context.CourseCategory.Add(courseCategory);
+                 _context.CourseCategory.AddAsync(courseCategory);
 
             });
 

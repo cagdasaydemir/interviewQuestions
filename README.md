@@ -51,5 +51,12 @@ Also, I'm trying to improve my git skills, so there will be lots of git mess.
        <td>1 week</td>
        <td>1</td>
     </tr>
+    <tr>
+      <th scope="row">6</th>
+      <td>Cargomda</td>
+      <td>15.06.2023</td>
+       <td>10hours</td>
+       <td>1</td>
+    </tr>
   </tbody>
 </table>

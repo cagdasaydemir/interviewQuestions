@@ -8,7 +8,7 @@ Then you should type "npm start"; this will start both App and Server.
 
 # Giriş
 
-Bu proje, React.js'in Vite.js şablonuyla oluşturuldu.
+Bu proje, Vite.js'in React.js şablonuyla oluşturuldu.
 Node modüllerini yüklemek için önce terminalde "npm i" yazmanız gerekmektedir.
 
 Bu proje json-server kullanmaktadır.
